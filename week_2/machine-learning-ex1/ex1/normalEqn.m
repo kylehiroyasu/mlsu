@@ -12,7 +12,9 @@ theta = zeros(size(X, 2), 1);
 
 % ---------------------- Sample Solution ----------------------
 
-
+x_cross_inv = inv(X' * X);
+x_cross_cross = x_cross_inv * X';
+theta = x_cross_cross * y;
 
 
 % -------------------------------------------------------------
