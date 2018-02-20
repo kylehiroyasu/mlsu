@@ -22,12 +22,8 @@ grad = zeros(size(theta));
 left = -y .* log( sigmoid( X * theta ) ) ;
 right = (1-y) .* log(1 - sigmoid( X * theta ) );
 sums = sum(left .- right);
-J = sums / m
-grad = sum( (sigmoid(theta' * X') - y) * X ) / m
-
-
-
-
+J = sums / m;
+grad = sum( (sigmoid(X * theta) - y) .* X ) / m;
 
 
 % =============================================================
