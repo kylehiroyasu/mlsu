@@ -23,7 +23,12 @@ left = -y .* log( sigmoid( X * theta ) ) ;
 right = (1-y) .* log(1 - sigmoid( X * theta ) );
 sums = sum(left .- right);
 J = sums / m;
-grad = sum( (sigmoid(X * theta) - y) .* X ) / m;
+inner = (sigmoid(X * theta) .- y);
+
+% product = (X .* inner)
+  product = inner .* X ;
+
+grad = sum( product ) / m;
 
 
 % =============================================================
