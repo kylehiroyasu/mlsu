@@ -80,21 +80,9 @@ left = -y_new .* log(h2) ;
 right = (1-y_new) .* log(1 - h2);
 sums = sum(sum(left .- right, 1),2);
 J = sums / m;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+theta1_tmp = Theta1(:,[2:size(Theta1, 2)]);
+theta2_tmp = Theta2(:,[2:size(Theta2, 2)]);
+J = (sums / m) + ( sum(sum(theta1_tmp .* theta1_tmp,1), 2) + sum(sum(theta2_tmp .* theta2_tmp, 1), 2) ) * lambda / ( 2 * m);
 
 
 
