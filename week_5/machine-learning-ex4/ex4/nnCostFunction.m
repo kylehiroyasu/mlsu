@@ -84,9 +84,34 @@ theta1_tmp = Theta1(:,[2:size(Theta1, 2)]);
 theta2_tmp = Theta2(:,[2:size(Theta2, 2)]);
 J = (sums / m) + ( sum(sum(theta1_tmp .* theta1_tmp,1), 2) + sum(sum(theta2_tmp .* theta2_tmp, 1), 2) ) * lambda / ( 2 * m);
 
+Del_1 = 0;
+Del_2 = 0;
 
+% Back Propogation
+for t = 1:m
+% Step 1
+X_t = X(t, :);
+h1_t = sigmoid([1 X_t] * Theta1');
+h2_t = sigmoid([1 h1_t] * Theta2');
 
+% Step 2 
 
+del_3 = h2_t - y_new(t,:);
+
+% Step 3
+
+del_2 =  del_3 * Theta2 .* [1 sigmoidGradient(h1_t)];
+
+% Step 4
+del_2 = del_2(2:end);
+
+Del_1 = Del_1 + del_2 * h1_t';
+Del_2 = Del_2 + del_3 * h2_t';
+
+endfor
+
+Theta1_grad = Del_1/m;
+Theta2_grad = Del_2/m;
 
 % -------------------------------------------------------------
 
