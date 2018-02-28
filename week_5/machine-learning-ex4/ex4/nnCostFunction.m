@@ -88,25 +88,30 @@ Del_1 = 0;
 Del_2 = 0;
 
 % Back Propogation
-for t = 1:m
-% Step 1
+%for t = 1:m
+for t = 1:2
+% Step 1 - feed forward of a single example
 X_t = X(t, :);
-h1_t = sigmoid([1 X_t] * Theta1');
-h2_t = sigmoid([1 h1_t] * Theta2');
-
+a_1 = [1 X_t];
+z_2 = a_1 * Theta1';
+a_2 = [1 sigmoid(z_2)];
+z_3 = a_2 * Theta2';
+a_3 = sigmoid(z_3);
+y_k = y_new(t,:);
 % Step 2 
 
-del_3 = h2_t - y_new(t,:);
+del_3 = a_3 - y_k;
 
-% Step 3
-
-del_2 =  del_3 * Theta2 .* [1 sigmoidGradient(h1_t)];
+% Step 3 - del for layer 2
+size(del_3)
+size(Theta2)
+size(theta2_tmp)
+del_2 = ( del_3 * theta2_tmp) .* sigmoidGradient(z_2);
 
 % Step 4
 del_2 = del_2(2:end);
-
-Del_1 = Del_1 + del_2 * h1_t';
-Del_2 = Del_2 + del_3 * h2_t';
+Del_1 = Del_1 + del_2 * a_1';
+Del_2 = Del_2 + del_3 * a_2';
 
 endfor
 
