@@ -87,36 +87,35 @@ J = (sums / m) + ( sum(sum(theta1_tmp .* theta1_tmp,1), 2) + sum(sum(theta2_tmp 
 Del_1 = 0;
 Del_2 = 0;
 
-% Back Propogation
-%for t = 1:m
-for t = 1:2
-% Step 1 - feed forward of a single example
-X_t = X(t, :);
-a_1 = [1 X_t];
-z_2 = a_1 * Theta1';
-a_2 = [1 sigmoid(z_2)];
-z_3 = a_2 * Theta2';
+ % Back Propogation Calculations
+ %Feed Forward Steps
+% single row of input values plus bias
+% in sample X contains two input values
+% a_1 with bias is 1x3
+ a_1 = [ones(m,1)  X];
+
+% multiply input value plus bias
+% Theta1 is a 4 x 3 matrix
+% z_2 is a 1x4 vector
+%a_2  thus is 1 x 5 vector with bias  
+ z_2 = a_1 * Theta1';
+ a_2 = [ones(m,1) sigmoid(z_2)];
+
+% z_3 and a_3 are 1x4 vectors
+%Theta2 is 4x5 mmatrix
+ z_3 = a_2 * Theta2';
 a_3 = sigmoid(z_3);
-y_k = y_new(t,:);
-% Step 2 
 
-del_3 = a_3 - y_k;
+ % in training example a_2 and a_3 ( so is y_new) are the same size: 16, 4 
+ % del_3 is just the 1x4 vector of differences
+   del_3 = a_3 - y_new;
+ 
+%tmp is a 5x1 vector
+tmp = Theta2' * del_3';
+del_2 = tmp(2:end,:)' .* sigmoidGradient(z_2);
 
-% Step 3 - del for layer 2
-size(del_3)
-size(Theta2)
-size(theta2_tmp)
-del_2 = ( del_3 * theta2_tmp) .* sigmoidGradient(z_2);
-
-% Step 4
-del_2 = del_2(2:end);
-Del_1 = Del_1 + del_2 * a_1';
-Del_2 = Del_2 + del_3 * a_2';
-
-endfor
-
-Theta1_grad = Del_1/m;
-Theta2_grad = Del_2/m;
+Theta2_grad = del_3' * a_2 / m; 
+Theta1_grad = del_2' * a_1 / m;
 
 % -------------------------------------------------------------
 
@@ -125,5 +124,5 @@ Theta2_grad = Del_2/m;
 % Unroll gradients
 grad = [Theta1_grad(:) ; Theta2_grad(:)];
 
-
+ 
 end
