@@ -52,13 +52,18 @@ error_val   = zeros(m, 1);
 %
 
 % ---------------------- Sample Solution ----------------------
+for i = 1:m
+    % Creating subsets of data
+    xt = X(1:i,:);
+    yt = y(1:i);
 
+    % fitting subset of data with linear regression including regularization parameter lambda
+    theta  = trainLinearReg(xt, yt, lambda);
 
-
-
-
-
-
+    % computing the cost for the subset of training data and the enzxtire cross validation set
+    [error_train(i) grad] = linearRegCostFunction(xt, yt, theta, 0);
+    [error_val(i) grad] = linearRegCostFunction(Xval, yval, theta, 0); 
+end
 % -------------------------------------------------------------
 
 % =========================================================================
