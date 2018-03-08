@@ -117,6 +117,9 @@ del_2 = tmp(2:end,:)' .* sigmoidGradient(z_2);
 Theta2_grad = del_3' * a_2 / m; 
 Theta1_grad = del_2' * a_1 / m;
 
+Theta1_grad = Theta1_grad + (lambda / m) .* [zeros(size(Theta1,1),1) Theta1(:, 2:end)];
+Theta2_grad = Theta2_grad + (lambda / m) .* [zeros(size(Theta2,1),1) Theta2(:, 2:end)];
+
 % -------------------------------------------------------------
 
 % =========================================================================
