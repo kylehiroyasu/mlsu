@@ -20,10 +20,15 @@ idx = zeros(size(X,1), 1);
 %
 % Note: You can use a for-loop over the examples to compute this.
 %
+n = size(X, 1);
 
-
-
-
+for iter = 1:n
+    diff = zeros(K,1);
+    for center = 1:K
+    	diff(center,1) = norm(X(iter,:) - centroids(center,:));
+    endfor
+    [ignore, idx(iter,1)] = min(diff);
+endfor
 
 
 
